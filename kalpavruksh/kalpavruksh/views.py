@@ -6,9 +6,15 @@ from django.db.models import Count, Min, Sum, Avg
 def index(request):
     return render_to_response('templates/index.html')
 
-
 def questions(request):
     params = request.GET
+    try:
+        tenant = Tenant.objects.get(api_key=params.get('api_key'))
+    except ObjectDoesNotExist:
+        return JsonResponse({
+            "message": "Invalid Api Key", 
+            "status": False,
+        })
     kwargs = {}
     if params.get('id'):
         kwargs['id'] = params.get('id')

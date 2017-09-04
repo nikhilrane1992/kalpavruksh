@@ -1,5 +1,6 @@
 from kalpavruksh.models import *
 from django.contrib.auth.models import User
+from uuid import uuid4
 
 questions_ans = [
 	{
@@ -41,5 +42,6 @@ questions_ans = [
 for i in questions_ans:
 	user = User.objects.get(id=1)
 	question = Question.objects.create(title=i['question'], user=user)
-	Answer.objects.create(body=i['answer'], user=user, question=question)
+	Answer.objects.create(body=i['answer'], user=user, question=question)	
 	print i
+Tenant.objects.create(name="Nikhil Rane", api_key=str(uuid4()))

@@ -27,4 +27,7 @@ class Tenant(models.Model):
     api_key = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "{} - {}".format(self.name, self.api_key)
    

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class User(models.Model):
     name = models.CharField(max_length=50)
@@ -31,6 +32,7 @@ class Tenant(models.Model):
     name = models.CharField(max_length=50)
     api_key = models.CharField(max_length=100)
     api_request_count = models.IntegerField(default=0)
+    next_request_timestamp = models.DateTimeField(default=datetime.now())
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

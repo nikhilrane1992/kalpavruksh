@@ -10,7 +10,9 @@ def index(request):
 def questions(request):
     params = request.GET
     try:
-        Tenant.objects.get(api_key=params.get('api_key'))
+        tenent = Tenant.objects.get(api_key=params.get('api_key'))
+        tenent.api_request_count += 1
+        tenent.save()
     except ObjectDoesNotExist:
         return JsonResponse({
             "message": "Invalid Api Key", 

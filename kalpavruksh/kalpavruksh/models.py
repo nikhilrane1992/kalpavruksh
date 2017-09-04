@@ -25,9 +25,10 @@ class Answer(models.Model):
 class Tenant(models.Model):
     name = models.CharField(max_length=50)
     api_key = models.CharField(max_length=100)
+    api_request_count = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "{} - {}".format(self.name, self.api_key)
+        return "Name: {} | Api Key: {} | Api Request Count: {}".format(self.name, self.api_key, self.api_request_count)
    

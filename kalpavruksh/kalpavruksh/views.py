@@ -24,9 +24,27 @@ def questions(request):
             "id": que.id,
             "answers": [{
                 "answer": ans.body,
-                "user": ans.user.username,
+                "user": ans.user.name,
                 "id": ans.id
             } for ans in que.answer_set.all()]
         } for que in Question.objects.filter(private=False)], 
+        "status": True,
+    })
+
+
+def dashboard_summary(request):
+    tot_que = Question.objects.all().count()
+    tot_ans = Answer.objects.all().count()
+    tot_users = User.objects.all().count()
+
+    return JsonResponse({
+        "tot_que": tot_que,
+        "tot_ans": tot_ans,
+        "tot_users": tot_users,
+        "tenent_api_counts": [{
+            "count": tenent.api_request_count,
+            "name": tenent.name,
+            "api_key": tenent.api_key
+        } for tenent in Tenant.objects.all()],
         "status": True,
     })

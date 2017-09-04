@@ -1,5 +1,4 @@
 from kalpavruksh.models import *
-from django.contrib.auth.models import User
 from uuid import uuid4
 
 questions_ans = [
@@ -39,9 +38,21 @@ questions_ans = [
 	}
 ]
 
+Question.objects.all().delete()
+Answer.objects.all().delete()
+Tenant.objects.all().delete()
+User.objects.all().delete()
+
+
+user_name = ["Nikhil Rane", "Vaibhav Muley", "Divyanjay Singh", "Abhishek Singh", "Nishant Pardamwar", "Rahul Patil", "Mohit Patil", "Ashutosh Narkhede"]
+
+for i in user_name[:6]:
+	user = User.objects.create(name=i)
+
 for i in questions_ans:
-	user = User.objects.get(id=1)
 	question = Question.objects.create(title=i['question'], user=user)
 	Answer.objects.create(body=i['answer'], user=user, question=question)	
 	print i
-Tenant.objects.create(name="Nikhil Rane", api_key=str(uuid4()))
+
+for i in user_name:
+	Tenant.objects.create(name=i, api_key=str(uuid4()))

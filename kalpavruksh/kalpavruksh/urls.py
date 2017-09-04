@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', index),
     url(r'^get/questions/$', questions),
+    url(r'^dashboard/summary/$', dashboard_summary),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

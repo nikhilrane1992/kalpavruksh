@@ -140,19 +140,8 @@
                     </div>
                 </section>
             </div>
-            <div class="col-md-3 col-sm-6">
-            <a href="/get/questions/" target="_blank">
-                <section class="panel panel-box" style="cursor: hand; cursor: pointer;">
-                    <div class="panel-left panel-icon bg-danger">
-                        <i class="fa fa-book text-large stat-icon primary-text"></i>
-                    </div>
-                    <div class="panel-right panel-icon bg-reverse">
-                        <p class="text-muted no-margin text"><span>View API</span></p>
-                    </div>
-                </section>
-            </div>
-            </a>
         </div>
+        <label>Tenant API Count</label>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -160,6 +149,7 @@
                     <th>Name</th>
                     <th>API Key</th>
                     <th>API Count</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tr ng-repeat="tenent in data.tenent_api_counts">
@@ -167,6 +157,7 @@
                 <td>{{tenent.name}}</td>
                 <td>{{tenent.api_key}}</td>
                 <td>{{tenent.count ? tenent.count:0}}</td>
+                <td><a href="/get/questions/?api_key={{tenent.api_key}}" target="_blank"><i class="fa fa-2x fa-hand-o-right" aria-hidden="true"></i></a></td>
             </tr>
         </table>
     </div>

@@ -46,7 +46,7 @@ User.objects.all().delete()
 
 user_name = ["Nikhil Rane", "Vaibhav Muley", "Divyanjay Singh", "Abhishek Singh", "Nishant Pardamwar", "Rahul Patil", "Mohit Patil", "Ashutosh Narkhede"]
 
-for i in user_name[:6]:
+for i in user_name:
 	user = User.objects.create(name=i)
 
 for i in questions_ans:

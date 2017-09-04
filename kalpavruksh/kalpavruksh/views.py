@@ -8,16 +8,22 @@ def index(request):
 
 def questions(request):
     params = request.GET
+    kwargs = {}
+    if params.get('id'):
+        kwargs['id'] = params.get('id')
+    if params.get('title'):
+        kwargs['title__icontains'] = params.get('title')
+    kwargs['private'] = False
     return JsonResponse({
         "data": [{
-            "question": que.title,
+            "title": que.title,
             "id": que.id,
             "answers": [{
                 "answer": ans.body,
                 "user": ans.user.name,
                 "id": ans.id
             } for ans in que.answer_set.all()]
-        } for que in Question.objects.filter(private=False)], 
+        } for que in Question.objects.filter(**kwargs)], 
         "status": True,
     })
 

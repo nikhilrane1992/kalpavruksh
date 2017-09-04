@@ -16,19 +16,15 @@ class KalpavrukshMiddleware(object):
                     created__month=current_date.month, 
                     created__day=current_date.day, 
                 )
-                if tenant_api_count.api_request_count < 100:
-                    tenant_api_count.api_request_count += 1
-                    tenant_api_count.next_request_timestamp = current_date
-                    tenant_api_count.save()
-                elif tenant_api_count.next_request_timestamp + timedelta(seconds=10) < current_date:
-                    tenant_api_count.api_request_count += 1
-                    tenant_api_count.next_request_timestamp = current_date
-                    tenant_api_count.save()
-                else:
+                if tenant_api_count.next_request_timestamp + timedelta(seconds=10) > current_date and tenant_api_count.api_request_count > 100:
                     return JsonResponse({
                         "message": "Try After 10 Seconds", 
                         "status": False,
                     })
+                else:
+                    tenant_api_count.api_request_count += 1
+                    tenant_api_count.next_request_timestamp = current_date
+                    tenant_api_count.save()
 
             except ObjectDoesNotExist:
                 return JsonResponse({

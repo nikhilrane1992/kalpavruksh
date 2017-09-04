@@ -1,21 +1,26 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class User(models.Model):
-    name = models.CharField(max_length=50)
 
 class Question(models.Model):
     title = models.TextField()
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     private = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "{}".format(self.title)
    
-class Question(models.Model):
+class Answer(models.Model):
     body = models.TextField()
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     question = models.ForeignKey(Question)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "{}".format(self.body)
 
 class Tenant(models.Model):
     name = models.CharField(max_length=50)

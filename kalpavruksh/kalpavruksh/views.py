@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, JsonResponse
 from django.shortcuts import render_to_response, render
 from models import *
+from django.db.models import Count, Min, Sum, Avg
 
 def index(request):
     return render_to_response('templates/index.html')
@@ -38,9 +39,9 @@ def dashboard_summary(request):
         "tot_ans": tot_ans,
         "tot_users": tot_users,
         "tenent_api_counts": [{
-            "count": tenent.api_request_count,
-            "name": tenent.name,
-            "api_key": tenent.api_key
-        } for tenent in Tenant.objects.all()],
+            "count":  TenantAPICount.objects.filter(tenant=tenant).aggregate(Sum('api_request_count'))['api_request_count__sum'],
+            "name": tenant.name,
+            "api_key": tenant.api_key
+        } for tenant in Tenant.objects.all()],
         "status": True,
     })

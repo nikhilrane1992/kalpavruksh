@@ -55,4 +55,4 @@ for i in questions_ans:
 	print i
 
 for i in user_name:
-	Tenant.objects.create(name=i, api_key=str(uuid4()))
+	tenant = Tenant.objects.create(name=i, api_key=str(uuid4()))

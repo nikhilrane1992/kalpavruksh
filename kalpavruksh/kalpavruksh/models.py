@@ -31,11 +31,19 @@ class Answer(models.Model):
 class Tenant(models.Model):
     name = models.CharField(max_length=50)
     api_key = models.CharField(max_length=100)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "Name: {} | Api Key: {}".format(self.name, self.api_key)
+
+class TenantAPICount(models.Model):
+    tenant = models.ForeignKey(Tenant)
     api_request_count = models.IntegerField(default=0)
     next_request_timestamp = models.DateTimeField(default=datetime.now())
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "Name: {} | Api Key: {} | Api Request Count: {}".format(self.name, self.api_key, self.api_request_count)
+        return "Tenant: {} | Api Request Count: {} | created: {}".format(self.tenant.name, self.api_request_count, self.created)
    

@@ -1,20 +1,21 @@
-from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, JsonResponse
-from django.shortcuts import render_to_response, render
+from django.http import JsonResponse
+from django.shortcuts import render_to_response
 from models import *
-from django.db.models import Count, Min, Sum, Avg
+from django.db.models import Sum
 from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
     return render_to_response('templates/index.html')
 
+
 def questions(request):
     params = request.GET
     try:
-        tenant = Tenant.objects.get(api_key=params.get('api_key'))
+        Tenant.objects.get(api_key=params.get('api_key'))
     except ObjectDoesNotExist:
         return JsonResponse({
-            "message": "Invalid Api Key", 
+            "message": "Invalid Api Key",
             "status": False,
         })
     kwargs = {}
@@ -32,7 +33,7 @@ def questions(request):
                 "user": ans.user.name,
                 "id": ans.id
             } for ans in que.answer_set.all()]
-        } for que in Question.objects.filter(**kwargs)], 
+        } for que in Question.objects.filter(**kwargs)],
         "status": True,
     })
 
@@ -47,7 +48,9 @@ def dashboard_summary(request):
         "tot_ans": tot_ans,
         "tot_users": tot_users,
         "tenent_api_counts": [{
-            "count":  TenantAPICount.objects.filter(tenant=tenant).aggregate(Sum('api_request_count'))['api_request_count__sum'],
+            "count": TenantAPICount.objects.filter(
+                tenant=tenant
+            ).aggregate(Sum('api_request_count'))['api_request_count__sum'],
             "name": tenant.name,
             "api_key": tenant.api_key
         } for tenant in Tenant.objects.all()],

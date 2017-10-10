@@ -1,7 +1,9 @@
+from datetime import datetime, timedelta
 from django.core.exceptions import ObjectDoesNotExist
 from models import *
-from django.http import HttpResponseRedirect, HttpResponse, HttpRequest, JsonResponse
-from datetime import datetime, timedelta
+from django.http import HttpResponseRedirect, HttpResponse, HttpRequest,
+JsonResponse
+
 
 class KalpavrukshMiddleware(object):
     def process_request(self, request):
@@ -12,13 +14,13 @@ class KalpavrukshMiddleware(object):
                 tenant = Tenant.objects.get(api_key=params.get('api_key'))
                 tenant_api_count, created = TenantAPICount.objects.get_or_create(
                     tenant=tenant,
-                    created__year=current_date.year, 
-                    created__month=current_date.month, 
-                    created__day=current_date.day, 
+                    created__year=current_date.year,
+                    created__month=current_date.month,
+                    created__day=current_date.day,
                 )
                 if tenant_api_count.next_request_timestamp + timedelta(seconds=10) > current_date and tenant_api_count.api_request_count > 100:
                     return JsonResponse({
-                        "message": "Try After 10 Seconds", 
+                        "message": "Try After 10 Seconds",
                         "status": False,
                     })
                 else:
@@ -28,6 +30,6 @@ class KalpavrukshMiddleware(object):
 
             except ObjectDoesNotExist:
                 return JsonResponse({
-                    "message": "Invalid Api Key", 
+                    "message": "Invalid Api Key",
                     "status": False,
                 })
